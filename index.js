@@ -26,11 +26,22 @@ let mailOptions = (email, appname)=>{
       };
 }
 
+let isValidEmail = (email)=>{
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+} 
+
 module.exports = (email, password, appname, callback)=>{
+    if(!isValidEmail(email)){
+        const error="Invalid email";
+        return callback(error);
+    }
+    if(!password){
+        return callback("Password cannot be empty");
+    }
     let transporter = generateTransporter(email, password);
-    let mailOptions = mailOptions(email, appname)
-    transporter.sendMail(mailOptions, (error, info) => {
-       callback(error, info);
-       /// next(('Message %s sent: %s', info.messageId, info.response));
+    let mailOpts = mailOptions(email, appname)
+    transporter.sendMail(mailOpts, (error, info) => {
+       return callback(error, info);
     });
 }

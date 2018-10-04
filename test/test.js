@@ -29,9 +29,38 @@ describe('Tests that it tries to login', function(){
 
       it('should login and send email telling users someone just attemted to login onto a platform using their credentials', function(done) {
             auth("kola@mail.com", "password", "appname", function(error, info){
-                console.log(error);
-                console.log(info);
+                expect(info.response).to.equal("nodemailer-mock success");
             });
+            done();
+      });
+
+      it('should fail to send an email and login user', function(done) {
+        // tell the mock class to return an error
+        const err = 'Something just happen right now, not sending email and login in user';
+        nodemailerMock.mock.shouldFailOnce();
+        nodemailerMock.mock.failResponse(err);
+        auth("kola@mail.com", "password", "appname", function(error, info){
+            expect(error).to.equal(err);
+        });
+        done();
+      });
+
+      it('throw error if invalid email used', function(done) {
+        const err = "Invalid email";
+        auth("kola", "password", "appname", function(error, info){
+            expect(error).to.equal(err);
+            console.log(err);
+        });
+        done();
+      });
+
+      it('throw error if invalid password used', function(done) {
+        const err = "Password cannot be empty";
+        auth("kola@mail.co", "", "appname", function(error, info){
+            expect(error).to.equal(err);
+            console.log(err);
+        });
+        done();
       });
 })
 
