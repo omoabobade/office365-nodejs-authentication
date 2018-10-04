@@ -5,7 +5,7 @@ Authentication layer for nodejs off office365, it is a workaround and currently 
 
     var office365Auth = require('office365-nodejs-authentication');
 
-    var formattedNum = office365Auth(email, password, applicationName, (error, info)=>{
+    office365Auth(email, password, applicationName, (error, info)=>{
       if(error)return error;
       console.log(info.messageId, info.response);
     });
