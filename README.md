@@ -28,8 +28,4 @@ Depending on the size of the project, if it is small and simple enough the refer
 
 ## Contributors
 
-Contributors are welcome and kindly submit a pull request.
-
-## License
-
-A short snippet describing the license (MIT, Apache, etc.)
+Contributions are welcome via pull requests and issues.
